@@ -54,7 +54,7 @@ async function ask(system, user, retries = 2) {
   try {
     const response = await client.chat.completions.create({
       model: MODEL,
-      max_tokens: 2048,
+      max_tokens: 8192,
       messages: [
         { role: "system", content: system },
         { role: "user", content: user }
@@ -92,7 +92,7 @@ async function chatWithDocument(documentText, userQuestion, chatHistory = [], la
   ];
   try {
     const response = await client.chat.completions.create({
-      model: MODEL, max_tokens: 1024, messages,
+      model: MODEL, max_tokens: 4096, messages,
     });
     return response.choices[0].message.content.trim();
   } catch (err) {
@@ -100,7 +100,7 @@ async function chatWithDocument(documentText, userQuestion, chatHistory = [], la
       console.log("Rate limited on chat, waiting 60 seconds...");
       await sleep(60000);
       const response = await client.chat.completions.create({
-        model: MODEL, max_tokens: 1024, messages,
+        model: MODEL, max_tokens: 4096, messages,
       });
       return response.choices[0].message.content.trim();
     }
@@ -125,7 +125,7 @@ async function generateDocument(templateType, details) {
   try {
     const response = await client.chat.completions.create({
       model: MODEL,
-      max_tokens: 2048,
+      max_tokens: 8192,
       messages: [
         { role: "system", content: prompt.system },
         { role: "user", content: prompt.user }
@@ -138,7 +138,7 @@ async function generateDocument(templateType, details) {
       await sleep(60000);
       const response = await client.chat.completions.create({
         model: MODEL,
-        max_tokens: 2048,
+        max_tokens: 8192,
         messages: [
           { role: "system", content: prompt.system },
           { role: "user", content: prompt.user }
