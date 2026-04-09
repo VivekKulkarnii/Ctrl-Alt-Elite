@@ -44,7 +44,7 @@ export default function Header({ mode, onModeChange, onReset, language, onLangua
         borderColor: "rgba(200,150,62,0.2)",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div
             className="w-9 h-9 rounded-lg flex items-center justify-center text-lg font-bold"
@@ -167,7 +167,7 @@ export default function Header({ mode, onModeChange, onReset, language, onLangua
             )}
           </div>
 
-          <div className="flex items-center gap-6 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <div className="hidden md:flex items-center gap-6 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
             <span>📄 PDF &amp; Text</span>
             <span>🔒 Private</span>
             <span>⚡ Instant</span>

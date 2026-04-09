@@ -90,8 +90,8 @@ export default function Home() {
             ) : (
               <div className="mt-6">
                 {/* Top bar */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                  <div className="flex flex-wrap items-center gap-3">
                     <span className="text-sm text-white/40">Analyzing:</span>
                     <span
                       className="text-sm font-mono px-3 py-1 rounded-full"
@@ -120,7 +120,7 @@ export default function Home() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
                     {/* Tab switcher */}
                     <div
                       className="flex rounded-lg p-1"

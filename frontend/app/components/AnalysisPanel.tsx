@@ -100,7 +100,7 @@ export default function AnalysisPanel({ analysis }: Props) {
 
       {/* Tabs */}
       <div
-        className="flex gap-1 p-1 rounded-xl mb-6"
+        className="flex flex-wrap gap-1 p-1 rounded-xl mb-6"
         style={{ background: "rgba(255,255,255,0.04)" }}
       >
         {tabs.map((tab) => (

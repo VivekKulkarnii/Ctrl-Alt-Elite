@@ -159,7 +159,7 @@ export default function UploadZone({
       {/* Hero text */}
       <div className="text-center mb-12">
         <h1
-          className="font-display text-5xl md:text-6xl mb-4 leading-tight"
+          className="font-display text-4xl md:text-5xl lg:text-6xl mb-4 leading-tight"
           style={{ color: "#F5F0E8" }}
         >
           Understand Any
@@ -192,7 +192,7 @@ export default function UploadZone({
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className="relative rounded-2xl p-12 text-center cursor-pointer transition-all"
+        className="relative rounded-2xl p-8 md:p-12 text-center cursor-pointer transition-all"
         style={{
           border: `2px dashed ${isDragging ? "#C8963E" : "rgba(255,255,255,0.15)"}`,
           background: isDragging
@@ -257,7 +257,7 @@ export default function UploadZone({
       )}
 
       {/* Features */}
-      <div className="grid grid-cols-3 gap-4 mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
         {[
           { icon: "🔍", label: "Risk Detection", desc: "Flags dangerous clauses automatically" },
           { icon: "📝", label: "Plain English", desc: "No legal jargon, just clear explanations" },
