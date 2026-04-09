@@ -12,15 +12,11 @@ const generateRoute = require("./routes/generate");
 const app = express();
 
 // Middleware
+// Middleware
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (curl, Postman) and any localhost port
-    if (!origin || origin.match(/^http:\/\/localhost:\d+$/)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
+  origin: ['https://ctrl-alt-elite-nu.vercel.app', 'http://localhost:3000', 'http://localhost:3001'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json({ limit: "10mb" }));
 
