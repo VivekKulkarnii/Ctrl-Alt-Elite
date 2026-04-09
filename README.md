@@ -49,7 +49,7 @@ Parsing:   pdf-parse (PDF text extraction)
 
 ### Prerequisites
 - Node.js 18+
-- An Anthropic API key → [console.anthropic.com](https://console.anthropic.com)
+- GROQ API
 
 ---
 
