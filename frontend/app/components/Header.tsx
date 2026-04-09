@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { SUPPORTED_LANGUAGES } from "../page";
+import { SUPPORTED_LANGUAGES } from "../constants";
+import Flag from "react-world-flags";
 
 interface HeaderProps {
   mode: "analyze" | "generate";
@@ -117,7 +118,9 @@ export default function Header({ mode, onModeChange, onReset, language, onLangua
                 color: isLangOpen ? "#C8963E" : "rgba(255,255,255,0.6)",
               }}
             >
-              <span className="text-base">{currentLang.flag}</span>
+              <span className="w-5 h-3.5 flex-shrink-0 flex items-center overflow-hidden rounded-[2px]">
+                <Flag code={currentLang.flag} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </span>
               <span>{currentLang.native}</span>
               <span className="text-xs opacity-50">{isLangOpen ? "▲" : "▼"}</span>
             </button>
@@ -150,7 +153,9 @@ export default function Header({ mode, onModeChange, onReset, language, onLangua
                       background: language === lang.code ? "rgba(200,150,62,0.1)" : "transparent",
                     }}
                   >
-                    <span className="text-base">{lang.flag}</span>
+                    <span className="w-5 h-3.5 flex-shrink-0 flex items-center overflow-hidden rounded-[2px]">
+                      <Flag code={lang.flag} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </span>
                     <span className="flex-1">{lang.label}</span>
                     <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>{lang.native}</span>
                     {language === lang.code && (

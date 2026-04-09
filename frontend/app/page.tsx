@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Flag from "react-world-flags";
+import { SUPPORTED_LANGUAGES } from "./constants";
 import UploadZone from "./components/UploadZone";
 import AnalysisPanel from "./components/AnalysisPanel";
 import ChatInterface from "./components/ChatInterface";
@@ -40,19 +42,7 @@ export type Analysis = {
   redFlags: string[];
 };
 
-export const SUPPORTED_LANGUAGES = [
-  { code: "English", label: "English", native: "English", flag: "🇬🇧" },
-  { code: "Hindi", label: "Hindi", native: "हिंदी", flag: "🇮🇳" },
-  { code: "Kannada", label: "Kannada", native: "ಕನ್ನಡ", flag: "🇮🇳" },
-  { code: "Tamil", label: "Tamil", native: "தமிழ்", flag: "🇮🇳" },
-  { code: "Telugu", label: "Telugu", native: "తెలుగు", flag: "🇮🇳" },
-  { code: "Malayalam", label: "Malayalam", native: "മലയാളം", flag: "🇮🇳" },
-  { code: "Marathi", label: "Marathi", native: "मराठी", flag: "🇮🇳" },
-  { code: "Bengali", label: "Bengali", native: "বাংলা", flag: "🇮🇳" },
-  { code: "Gujarati", label: "Gujarati", native: "ગુજરાતી", flag: "🇮🇳" },
-  { code: "Punjabi", label: "Punjabi", native: "ਪੰਜਾਬੀ", flag: "🇮🇳" },
-  { code: "Odia", label: "Odia", native: "ଓଡ଼ିଆ", flag: "🇮🇳" },
-];
+
 
 export default function Home() {
   const [mode, setMode] = useState<"analyze" | "generate">("analyze");
@@ -115,14 +105,17 @@ export default function Home() {
                     </span>
                     {language !== "English" && (
                       <span
-                        className="text-xs px-2 py-1 rounded-full"
+                        className="text-xs px-2 py-1 rounded-full flex items-center gap-1.5"
                         style={{
                           background: "rgba(147,197,253,0.1)",
                           color: "#93C5FD",
                           border: "1px solid rgba(147,197,253,0.2)",
                         }}
                       >
-                        🌐 {SUPPORTED_LANGUAGES.find(l => l.code === language)?.native || language}
+                        <span className="w-4 h-3 flex-shrink-0 flex items-center overflow-hidden rounded-sm">
+                          <Flag code={SUPPORTED_LANGUAGES.find(l => l.code === language)?.flag} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        </span>
+                        {SUPPORTED_LANGUAGES.find(l => l.code === language)?.native || language}
                       </span>
                     )}
                   </div>
