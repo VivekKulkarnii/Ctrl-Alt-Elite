@@ -73,14 +73,41 @@ async function ask(system, user, retries = 2) {
 
 async function analyzeDocument(documentText, language = "English") {
   const truncated = truncateText(documentText);
-  const prompt = prompts.fullAnalysis(truncated, language);
-  const raw = await ask(prompt.system, prompt.user);
-  try { 
-    return extractJSON(raw); 
-  } catch (err) {
-    console.error("JSON parse failed. Raw output:", raw.substring(0, 500));
-    throw new Error("AI returned malformed analysis. Please try again."); 
-  }
+
+  console.log("🚀 Agent 1/3: Extracting structural metadata...");
+  const prompt1 = prompts.extractionAgent(truncated, language);
+  const raw1 = await ask(prompt1.system, prompt1.user);
+  let extractionResult = {};
+  try { extractionResult = extractJSON(raw1); } catch (e) { console.error("Extract Agent Failed"); }
+
+  console.log("⚖️ Agent 2/3: Searching for legal risks...");
+  const prompt2 = prompts.riskAgent(truncated, language);
+  const raw2 = await ask(prompt2.system, prompt2.user);
+  let riskResult = {};
+  try { riskResult = extractJSON(raw2); } catch (e) { console.error("Risk Agent Failed"); }
+
+  console.log("📋 Agent 3/3: Parsing obligations & clauses...");
+  const prompt3 = prompts.obligationsAgent(truncated, language);
+  const raw3 = await ask(prompt3.system, prompt3.user);
+  let obResult = {};
+  try { obResult = extractJSON(raw3); } catch (e) { console.error("Obligations Agent Failed"); }
+
+  // Combine swarm results into a single unified JSON object for the frontend
+  return {
+    documentType: extractionResult.documentType || "Unknown",
+    summary: extractionResult.summary || "Summary generation failed.",
+    partiesInvolved: extractionResult.partiesInvolved || [],
+    keyDates: extractionResult.keyDates || [],
+    
+    risks: riskResult.risks || [],
+    overallRiskScore: riskResult.overallRiskScore || 0,
+    recommendation: riskResult.recommendation || "Unable to formulate recommendation.",
+    redFlags: riskResult.redFlags || [],
+    
+    obligations: obResult.obligations || [],
+    importantClauses: obResult.importantClauses || [],
+    missingClauses: obResult.missingClauses || []
+  };
 }
 
 async function chatWithDocument(documentText, userQuestion, chatHistory = [], language = "English") {

@@ -1,229 +1,109 @@
-# ⚖️ LexAI — AI Legal Document Action Agent
+<div align="center">
+  <img src="https://img.icons8.com/color/144/balance-scale.png" alt="LexAI Logo"/>
+  <h1>⚖️ LexAI</h1>
+  <h3>The Specialized Multi-Agent Legal Document Assistant</h3>
 
-> *"Everyone signs legal documents. Almost nobody understands them."*
-> LexAI changes that — instantly, intelligently, and for everyone.
+  <p>Everyone signs legal documents. Almost nobody understands them.</p>
+
+  <div>
+    <img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Node.js-Express-339933?logo=nodedotjs" alt="Node" />
+    <img src="https://img.shields.io/badge/FastAPI-Python-009688?logo=fastapi" alt="FastAPI" />
+    <img src="https://img.shields.io/badge/Groq-LLaMA_3.3-f55036?logo=groq" alt="Groq" />
+    <img src="https://img.shields.io/badge/Twilio-WhatsApp-00E676?logo=whatsapp" alt="WhatsApp" />
+  </div>
+</div>
 
 ---
 
-## 🎯 What Is This?
+## 🎯 What Is LexAI?
 
-**LexAI** is an agentic AI system that reads legal documents so you don't have to struggle through them.
-Upload any PDF or text contract — rental agreement, employment offer, NDA, terms of service —
-and LexAI will **analyze it end-to-end in under 10 seconds**, giving you:
+**LexAI** is an advanced Agentic AI system that democratizes legal protection. It reads and decodes rental agreements, employment offers, NDAs, and more in seconds.
 
-- A plain-English summary of what the document actually means
-- Every risk, flagged by severity (High / Medium / Low)
-- Your obligations, with deadlines
-- Key clauses decoded from legalese
-- A smart Q&A chat — ask *anything* about the document
+Instead of one generic AI, LexAI utilizes a **Multi-Agent Swarm Architecture**. When you upload a document, it routes the text to three specialized AI Agents working in tandem:
+1. **The Extractor:** Identifies parties, dates, and contract summaries.
+2. **The Risk Analyst:** Hunts for deal-breaking red flags and predatory clauses.
+3. **The Legal Drafter:** Generates obligations, deadlines, and flags suspiciously missing clauses.
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
+- **📱 WhatsApp Integration:** Forward a PDF to our sandbox number and get an instant legal breakdown in your WhatsApp chat. No web-app required!
+- **🌐 Vernacular Polyglot:** Law is local. LexAI seamlessly translates English legalese into Hindi, Kannada, Tamil, Bengali, and more natively in the UI.
+- **⚡ Groq-Powered Speeds:** Powered by `llama-3.3-70b-versatile` running on Groq inference engines for instantaneous edge speeds.
+- **📝 Document Generator:** Proactively draft completely new, legally sound NDAs and Service Agreements via our dynamic form UI.
+- **💬 Q&A Chat Mode:** Enter a conversational interface to ask *anything* about the specific document you uploaded.
+
+---
+
+## 🏗️ The Multi-Agent Tech Stack
+
+| Layer | Technology |
 |---|---|
-| 📄 **Document Upload** | PDF, TXT, DOC, DOCX — up to 10MB |
-| 🔍 **Risk Detection** | AI detects unfavorable, hidden, or unusual clauses |
-| 📝 **Plain English** | Every clause explained without jargon |
-| 📋 **Obligation Tracker** | Who must do what, and by when |
-| ⚠️ **Red Flags** | Instant alerts for deal-breakers |
-| 💬 **Q&A Chat** | Conversational interface — ask anything |
-| 📊 **Risk Score** | 1–10 overall document risk rating |
-| 🔍 **Missing Clauses** | Detects what *should* be there but isn't |
+| **Frontend UI** | Next.js 14, React.js, TypeScript, Tailwind CSS |
+| **Backend API** | Node.js, Express, Multer, `pdf-parse` |
+| **WhatsApp Microservice** | Python 3, FastAPI, Uvicorn, Ngrok, Twilio |
+| **Agentic Core** | Groq SDK (`llama-3.3-70b`) |
 
 ---
 
-## 🏗️ Tech Stack
+## 🚀 Setup & Installation (Run in 5 Minutes)
 
-```
-Frontend:  Next.js 14 + TypeScript + Tailwind CSS
-Backend:   Node.js + Express
-AI:        Claude (Anthropic) — claude-sonnet-4
-Parsing:   pdf-parse (PDF text extraction)
-```
-
----
-
-## 🚀 Setup — Run in 5 Minutes
-
-### Prerequisites
-- Node.js 18+
-- GROQ API
-
----
-
-### Step 1 — Clone & Install
-
-```bash
-# Backend
-cd backend
-npm install
-
-# Frontend
-cd ../frontend
-npm install
-```
-
----
-
-### Step 2 — Environment Variables
-
-```bash
-# In /backend
-cp .env.example .env
-# Edit .env and add your key:
-# ANTHROPIC_API_KEY=sk-ant-...
-
-# In /frontend
-cp .env.example .env.local
-# NEXT_PUBLIC_API_URL=http://localhost:3001
-```
-
----
-
-### Step 3 — Run Both Servers
-
-**Terminal 1 — Backend:**
-```bash
-cd backend
-npm run dev
-# Runs on http://localhost:3001
-```
-
-**Terminal 2 — Frontend:**
+### 1. The Frontend (Next.js)
 ```bash
 cd frontend
+npm install
 npm run dev
-# Runs on http://localhost:3000
+# Running on http://localhost:3000
 ```
 
-Open **http://localhost:3000** in your browser. That's it. 🎉
+### 2. The Node.js Web Backend
+Make sure you have a `GROQ_API_KEY` configured in `.env`.
+```bash
+cd backend
+npm install
+npm run dev
+# Running on http://localhost:3001
+```
+
+### 3. The WhatsApp Bot Engine (FastAPI)
+Run the Python webhook service from the root directory to enable the Twilio WhatsApp Sandbox integrations.
+```bash
+pip install fastapi uvicorn twilio httpx pypdf2
+python -m uvicorn main:app --port 8000 --reload
+# Starts the webhook daemon on http://localhost:8000
+```
+*To expose the local python server to Twilio, you can run:*
+`npx localtunnel --port 8000`
 
 ---
 
-## 🔌 API Reference
+## 🧠 System Architecture
 
-### `POST /api/analyze`
-Accepts a multipart file upload OR raw JSON with `text` field.
-
-**Response:**
-```json
-{
-  "success": true,
-  "fileName": "contract.pdf",
-  "analysis": {
-    "documentType": "Employment Agreement",
-    "summary": "...",
-    "risks": [...],
-    "obligations": [...],
-    "importantClauses": [...],
-    "overallRiskScore": 8,
-    "redFlags": [...],
-    "recommendation": "..."
-  },
-  "extractedText": "..."
-}
-```
-
-### `POST /api/chat`
-```json
-{
-  "documentText": "...",
-  "message": "Can I terminate early?",
-  "history": [],
-  "mode": "chat"
-}
-```
-
----
-
-## 🧠 How It Works
-
-```
-User uploads document
+```text
+User uploads Document
         │
         ▼
-   Text Extraction (pdf-parse)
+   Raw Text Extraction (pdf-parse / PyPDF2)
+        │
+   [ Initiating Multi-Agent Swarm ]
+        ├──▶ 🕵🏻 Extractor Agent (Summaries & Parties)
+        ├──▶ ⚖️ Risk Agent (Red Flags & Score / 10)
+        └──▶ 📋 Drafter Agent (Missing Clauses & Obligations)
         │
         ▼
-   AI Analysis (Claude)
-   ┌────────────────────┐
-   │  Document Type     │
-   │  Risk Detection    │
-   │  Obligation Scan   │
-   │  Clause Decoding   │
-   │  Gap Analysis      │
-   └────────────────────┘
+   [ Aggregation Engine ]
         │
         ▼
-   Structured JSON Response
-        │
-        ▼
-   Rich UI Dashboard + Chat
+   Rich Interactive Dashboard / WhatsApp Reply
 ```
-
-The AI is guided by carefully engineered **prompt chains** that enforce structured JSON output,
-ensuring reliable parsing and consistent analysis quality.
-
----
-
-## 📁 Project Structure
-
-```
-legal-agent/
-├── backend/
-│   ├── server.js              # Express server + file upload config
-│   ├── routes/
-│   │   ├── analyze.js         # Document analysis endpoint
-│   │   └── chat.js            # Chat Q&A endpoint
-│   ├── utils/
-│   │   ├── aiProcessor.js     # Claude API calls
-│   │   └── pdfParser.js       # Text extraction
-│   ├── prompts/
-│   │   └── legalPrompts.js    # All AI prompt templates
-│   └── package.json
-│
-├── frontend/
-│   ├── app/
-│   │   ├── page.tsx           # Main app page + state
-│   │   ├── layout.tsx         # Root layout
-│   │   ├── globals.css        # Global styles + animations
-│   │   └── components/
-│   │       ├── Header.tsx         # Top nav
-│   │       ├── UploadZone.tsx     # File upload + loading
-│   │       ├── AnalysisPanel.tsx  # Results dashboard
-│   │       └── ChatInterface.tsx  # Q&A chat
-│   ├── tailwind.config.js
-│   ├── next.config.js
-│   └── package.json
-│
-├── docs/
-│   └── DEMO_SCRIPT.md
-└── README.md
-```
-
----
-
-## 🚀 Future Improvements (for judges)
-
-1. **Multi-document comparison** — compare two versions of the same contract
-2. **Clause negotiation assistant** — auto-generate counter-proposals
-3. **Jurisdiction-aware analysis** — adapt risk assessment to Indian/US/EU law
-4. **WhatsApp / Telegram bot** — send a photo of the document, get instant analysis
-5. **Lawyer referral integration** — connect users with real lawyers for flagged risks
-6. **Document history & tracking** — track changes across contract versions
-7. **Voice interface** — explain documents via audio for accessibility
-8. **Multi-language support** — analyze documents in Hindi, Kannada, etc.
 
 ---
 
 ## ⚠️ Disclaimer
+*LexAI provides AI-generated legal information for educational purposes only. It is **not a substitute for advice from a qualified legal professional**. Always consult a lawyer before signing important legal documents.*
 
-LexAI provides AI-generated legal information for educational purposes only.
-It is **not a substitute for advice from a qualified legal professional**.
-Always consult a lawyer before signing important legal documents.
-
----
-
-*Built with ❤️ for RNSIT Hackathon — Agentic AI Track*
+<div align="center">
+  <p><i>Built with ❤️ for the Hackathon — Agentic AI Track</i></p>
+</div>

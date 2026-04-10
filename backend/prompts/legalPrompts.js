@@ -25,12 +25,12 @@ The JSON keys must remain in English, but ALL string values must be in ${languag
 
 const prompts = {
   /**
-   * PROMPT 1: Full Document Analysis
-   * Returns structured JSON with all analysis components
+   * AGENT 1: The Extractor
+   * Specializes in structural metadata and context summaries
    */
-  fullAnalysis: (documentText, language) => ({
+  extractionAgent: (documentText, language) => ({
     system: SYSTEM_PROMPT + getLanguageInstruction(language),
-    user: `Analyze the following legal document thoroughly. Return a valid JSON object with this EXACT structure:
+    user: `Analyze the administrative and context details of the following legal document. Return a valid JSON object with this EXACT structure:
 
 {
   "documentType": "string (e.g., Rental Agreement, Employment Contract, NDA, Terms of Service)",
@@ -38,17 +38,54 @@ const prompts = {
   "partiesInvolved": ["string array of all parties mentioned"],
   "keyDates": [
     { "label": "string", "date": "string", "importance": "high|medium|low" }
-  ],
+  ]
+}
+
+Return ONLY valid JSON. No markdown, no explanation outside JSON.${language && language !== "English" ? `\nREMEMBER: All string values in the JSON must be in ${language}. Only JSON keys stay in English.` : ""}
+
+DOCUMENT:
+${documentText}`,
+  }),
+
+  /**
+   * AGENT 2: The Risk Analyst
+   * Specializes in finding predatory clauses, hidden traps, and quantifying risk
+   */
+  riskAgent: (documentText, language) => ({
+    system: SYSTEM_PROMPT + getLanguageInstruction(language),
+    user: `Analyze the following legal document STRICTLY for risks, traps, and liabilities. Return a valid JSON object with this EXACT structure:
+
+{
   "risks": [
     {
       "id": "R1",
       "title": "string - short risk title",
-      "description": "string - what exactly is risky and why",
+      "description": "string - what exactly is risky and why it severely hurts the user",
       "severity": "high|medium|low",
       "clause": "string - reference to clause/section if available",
-      "suggestion": "string - what the user should do or ask about"
+      "suggestion": "string - actionable suggestion to fix or push back"
     }
   ],
+  "overallRiskScore": "number between 1-10 (10 = extremely risky)",
+  "recommendation": "string - final concluding recommendation based on detected risks",
+  "redFlags": ["string array - dealbreakers or extremely unstandard clauses"]
+}
+
+Return ONLY valid JSON. No markdown, no explanation outside JSON.${language && language !== "English" ? `\nREMEMBER: All string values in the JSON must be in ${language}. Only JSON keys stay in English.` : ""}
+
+DOCUMENT:
+${documentText}`,
+  }),
+
+  /**
+   * AGENT 3: The Legal Drafter
+   * Specializes in extracting user duties and highlighting missing protections
+   */
+  obligationsAgent: (documentText, language) => ({
+    system: SYSTEM_PROMPT + getLanguageInstruction(language),
+    user: `Analyze the following legal document to map out duties and critical clauses. Return a valid JSON object with this EXACT structure:
+
+{
   "obligations": [
     {
       "id": "O1",
@@ -69,11 +106,8 @@ const prompts = {
     }
   ],
   "missingClauses": [
-    "string - description of standard clauses that are absent but should be present"
-  ],
-  "overallRiskScore": "number between 1-10 (10 = extremely risky)",
-  "recommendation": "string - overall recommendation in 2-3 sentences",
-  "redFlags": ["string array - immediate concerns that need urgent attention"]
+    "string - description of standard standard clauses that are absent but should normally be present in this type of document"
+  ]
 }
 
 Return ONLY valid JSON. No markdown, no explanation outside JSON.${language && language !== "English" ? `\nREMEMBER: All string values in the JSON must be in ${language}. Only JSON keys stay in English.` : ""}
