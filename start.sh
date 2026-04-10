@@ -20,7 +20,7 @@ echo "📦 Installing backend dependencies..."
 cd backend
 if [ ! -f ".env" ]; then
   cp .env.example .env
-  echo "⚠️  Created backend/.env — please add your ANTHROPIC_API_KEY"
+  echo "⚠️  Created backend/.env — please add your GROQ_API_KEY"
 fi
 npm install --silent
 echo "✅ Backend ready"
@@ -41,7 +41,7 @@ echo ""
 echo "   Backend  → http://localhost:3001"
 echo "   Frontend → http://localhost:3000"
 echo ""
-echo "⚠️  Make sure ANTHROPIC_API_KEY is set in backend/.env"
+echo "⚠️  Make sure GROQ_API_KEY is set in backend/.env"
 echo ""
 
 # Start both in background
